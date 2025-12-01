@@ -1,0 +1,36 @@
+@model ProyectoSeguridadInformatica.Models.EncryptViewModel
+
+@{
+    ViewData["Title"] = "Encriptar";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h2 class="mb-4">Encriptar texto con RSA</h2>
+
+        <form asp-action="Encrypt" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="PlainText" class="form-label"></label>
+                <textarea asp-for="PlainText" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="PlainText" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Encriptar</button>
+        </form>
+
+        @if (!string.IsNullOrEmpty(Model.CipherText))
+        {
+            <hr />
+            <h4>Resultado cifrado (Base64)</h4>
+            <textarea class="form-control" rows="4" readonly>@Model.CipherText</textarea>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+

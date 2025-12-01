@@ -1,0 +1,36 @@
+@model ProyectoSeguridadInformatica.Models.DecryptViewModel
+
+@{
+    ViewData["Title"] = "Desencriptar";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h2 class="mb-4">Desencriptar texto con RSA</h2>
+
+        <form asp-action="Decrypt" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="CipherText" class="form-label"></label>
+                <textarea asp-for="CipherText" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="CipherText" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Desencriptar</button>
+        </form>
+
+        @if (!string.IsNullOrEmpty(Model.PlainText))
+        {
+            <hr />
+            <h4>Texto plano</h4>
+            <textarea class="form-control" rows="4" readonly>@Model.PlainText</textarea>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
