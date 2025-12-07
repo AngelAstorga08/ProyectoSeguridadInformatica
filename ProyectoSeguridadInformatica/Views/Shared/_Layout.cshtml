@@ -8,11 +8,17 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProyectoSeguridadInformatica.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="security-theme">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark security-navbar border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ProyectoSeguridadInformatica</a>
+                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="security-logo"></span>
+                    <span class="ms-2">
+                        ProyectoSeguridadInformatica
+                        <span class="d-block security-navbar-subtitle">Laboratorio de seguridad y cifrado</span>
+                    </span>
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,26 +26,23 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Crypto" asp-action="Encrypt">Encriptar</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Crypto" asp-action="Encrypt">Encriptar</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Crypto" asp-action="Decrypt">Desencriptar</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Crypto" asp-action="Decrypt">Desencriptar</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
                         @if (Context.Session.GetString("UserId") == null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Registro</a>
+                                <a class="nav-link text-white" asp-controller="Account" asp-action="Register">Registro</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
+                                <a class="nav-link text-white" asp-controller="Account" asp-action="Login">Login</a>
                             </li>
                         }
                         else
@@ -51,7 +54,7 @@
                             </li>
                             <li class="nav-item">
                                 <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
-                                    <button type="submit" class="btn btn-link nav-link text-dark">Salir</button>
+                                    <button type="submit" class="btn btn-link nav-link text-white">Salir</button>
                                 </form>
                             </li>
                         }

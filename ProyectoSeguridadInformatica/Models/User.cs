@@ -15,6 +15,7 @@ namespace ProyectoSeguridadInformatica.Models
         public string? DisplayName { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
     }
 }
 

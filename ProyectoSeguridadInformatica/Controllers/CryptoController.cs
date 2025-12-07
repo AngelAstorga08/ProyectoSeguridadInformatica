@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoSeguridadInformatica.Models;
 using ProyectoSeguridadInformatica.Services;
 
 namespace ProyectoSeguridadInformatica.Controllers
 {
+    [Authorize]
     public class CryptoController : Controller
     {
         private readonly RsaService _rsaService;
@@ -16,11 +18,6 @@ namespace ProyectoSeguridadInformatica.Controllers
         [HttpGet]
         public IActionResult Encrypt()
         {
-            if (!IsAuthenticated())
-            {
-                return RedirectToLogin();
-            }
-
             return View(new EncryptViewModel());
         }
 
@@ -28,11 +25,6 @@ namespace ProyectoSeguridadInformatica.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Encrypt(EncryptViewModel model)
         {
-            if (!IsAuthenticated())
-            {
-                return RedirectToLogin();
-            }
-
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -45,11 +37,6 @@ namespace ProyectoSeguridadInformatica.Controllers
         [HttpGet]
         public IActionResult Decrypt()
         {
-            if (!IsAuthenticated())
-            {
-                return RedirectToLogin();
-            }
-
             return View(new DecryptViewModel());
         }
 
@@ -57,11 +44,6 @@ namespace ProyectoSeguridadInformatica.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Decrypt(DecryptViewModel model)
         {
-            if (!IsAuthenticated())
-            {
-                return RedirectToLogin();
-            }
-
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -77,20 +59,6 @@ namespace ProyectoSeguridadInformatica.Controllers
             }
 
             return View(model);
-        }
-
-        private bool IsAuthenticated()
-        {
-            return HttpContext.Session.GetString("UserId") != null;
-        }
-
-        private IActionResult RedirectToLogin()
-        {
-            var returnUrl = Url.Action(
-                action: ControllerContext.ActionDescriptor.ActionName,
-                controller: ControllerContext.ActionDescriptor.ControllerName);
-
-            return RedirectToAction("Login", "Account", new { returnUrl });
         }
     }
 }

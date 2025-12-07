@@ -1,8 +1,157 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="security-hero">
+    <div class="row mb-4">
+        <div class="col-lg-7 mb-4 mb-lg-0">
+            <div class="security-card">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <div class="security-pill mb-3">
+                            <span class="security-pill-dot"></span>
+                            Laboratorio práctico de seguridad web
+                        </div>
+                        <h1 class="security-hero-title mb-2">
+                            Seguridad informática aplicada a
+                            <span class="security-hero-highlight">autenticación y cifrado</span>
+                        </h1>
+                    </div>
+                    <div class="text-end">
+                        <div class="security-kpi">2</div>
+                        <div class="security-kpi-label">Módulos críticos<br />del sitio</div>
+                    </div>
+                </div>
+
+                <p class="security-hero-lead mb-3">
+                    Este sitio simula un entorno seguro donde los usuarios se registran, inician sesión
+                    y utilizan cifrado asimétrico RSA para proteger texto sensible.
+                    Está pensado como un <strong>laboratorio educativo</strong>, por lo que combina buenas prácticas
+                    de seguridad con algunas limitaciones deliberadas.
+                </p>
+
+                <p class="security-note mb-0">
+                    <strong>Importante:</strong> no introduzcas contraseñas reales ni datos personales.
+                    El objetivo es entender cómo se implementan las defensas y dónde siguen existiendo riesgos.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="security-card security-card-light h-100">
+                <h2 class="security-section-title mb-3">Resumen de la arquitectura</h2>
+                <p class="security-section-subtitle mb-3">
+                    El proyecto se basa en ASP.NET Core MVC con sesiones y servicios dedicados para
+                    autenticación y cifrado:
+                </p>
+
+                <ul class="security-list mb-3">
+                    <li>Servicio <strong>FirebaseUserService</strong> para leer y guardar usuarios en Firebase.</li>
+                    <li>Contraseñas almacenadas como <strong>hash BCrypt (modo mejorado)</strong>, no en texto plano.</li>
+                    <li>Servicio <strong>RsaService</strong> que cifra y descifra usando RSA con OAEP-SHA256.</li>
+                    <li>Controladores que protegen las acciones de cifrado y descifrado exigiendo sesión iniciada.</li>
+                </ul>
+
+                <div class="security-divider"></div>
+
+                <p class="security-note mb-0">
+                    Estas características aumentan la seguridad respecto a un sitio básico, pero
+                    <strong>no sustituyen a un framework completo de identidad</strong> ni a una configuración
+                    endurecida para producción.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row gy-4">
+        <div class="col-md-6">
+            <div class="security-card h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="security-section-title mb-0">¿Qué hace seguro a este sitio?</h2>
+                    <span class="security-badge security-badge--ok">Defensas aplicadas</span>
+                </div>
+
+                <ul class="security-list mb-3">
+                    <li>
+                        <strong>Hash de contraseñas con BCrypt</strong>  
+                        Las contraseñas nunca se guardan en texto claro; se aplica un algoritmo de hashing con factor
+                        de costo elevado, lo que dificulta ataques por fuerza bruta en caso de fuga de la base de datos.
+                    </li>
+                    <li>
+                        <strong>Cifrado asimétrico RSA con OAEP-SHA256</strong>  
+                        El texto que se cifra desde la sección de criptografía se protege con RSA y relleno OAEP
+                        moderno, mitigando ataques sobre el esquema de cifrado.
+                    </li>
+                    <li>
+                        <strong>Protección de rutas sensibles</strong>  
+                        Las acciones de <em>Encriptar</em> y <em>Desencriptar</em> en el controlador de criptografía
+                        sólo son accesibles si la sesión está autenticada; en caso contrario, se redirige al login
+                        con un mensaje claro.
+                    </li>
+                    <li>
+                        <strong>Tokens antifalsificación (CSRF)</strong>  
+                        Los formularios críticos (`Register`, `Login`, `Encrypt`, `Decrypt`) usan
+                        <code>[ValidateAntiForgeryToken]</code>, reduciendo el riesgo de ataques CSRF.
+                    </li>
+                    <li>
+                        <strong>Validación de entrada</strong>  
+                        Los modelos de vista validan campos obligatorios y se muestran errores de forma explícita,
+                        disminuyendo problemas derivados de entradas incompletas o malformadas.
+                    </li>
+                </ul>
+
+                <p class="security-note mb-0">
+                    En conjunto, estas capas ilustran cómo <strong>autenticación, cifrado y validación</strong>
+                    trabajan juntas para proteger la información de los usuarios.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="security-card h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="security-section-title mb-0">Limitaciones y fallos conocidos</h2>
+                    <span class="security-badge security-badge--risk">Riesgos a mejorar</span>
+                </div>
+
+                <ul class="security-list mb-3">
+                    <li>
+                        <strong>Sin configuración HTTPS forzada</strong>  
+                        El código no obliga a usar HTTPS ni configura cabeceras estrictas
+                        (HSTS, CSP, etc.). En un entorno real, esto expondría las sesiones a ataques
+                        de intercepción si se usa HTTP simple.
+                    </li>
+                    <li>
+                        <strong>Gestión de sesión mejorable</strong>  
+                        Aunque ahora se usan <em>cookies de autenticación con claims</em> y opciones más seguras
+                        (HTTP‑only, <code>SameSite</code>, expiración y renovación deslizante), seguirá siendo
+                        recomendable integrar un sistema de identidad completo en proyectos reales.
+                    </li>
+                    <li>
+                        <strong>Bloqueo y 2FA básicos</strong>  
+                        Se ha añadido bloqueo temporal tras varios intentos fallidos y un segundo factor de
+                        autenticación por código de un solo uso, pero en un entorno productivo debería
+                        integrarse con canales reales (SMS/correo/app) y políticas de seguridad más estrictas.
+                    </li>
+                    <li>
+                        <strong>Uso educativo de Firebase</strong>  
+                        Los usuarios se almacenan mediante peticiones directas a Firebase. No se muestra en
+                        este proyecto una configuración completa de reglas de seguridad, auditoría ni rotación
+                        de claves de API.
+                    </li>
+                    <li>
+                        <strong>Logging y monitorización limitados</strong>  
+                        No se incluyen registros detallados de accesos, intentos fallidos o anomalías,
+                        lo que complica la detección temprana de ataques.
+                    </li>
+                </ul>
+
+                <p class="security-note mb-0">
+                    Estas limitaciones son intencionadas para fines didácticos. A partir de este punto, puedes
+                    proponer y aplicar <strong>mejoras de endurecimiento</strong> (seguridad en cookies, cabeceras,
+                    roles, MFA, políticas de contraseñas, etc.) como parte de la práctica.
+                </p>
+            </div>
+        </div>
+    </div>
 </div>

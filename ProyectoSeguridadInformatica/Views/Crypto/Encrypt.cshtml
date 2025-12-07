@@ -5,8 +5,12 @@
 }
 
 <div class="row justify-content-center">
-    <div class="col-md-8">
-        <h2 class="mb-4">Encriptar texto con RSA</h2>
+    <div class="col-md-8 security-card">
+        <h2 class="mb-2 security-section-title">Encriptar texto con RSA</h2>
+        <p class="security-section-subtitle mb-4">
+            Este módulo usa <strong>RSA</strong> con relleno <strong>OAEP-SHA256</strong> para proteger el texto que escribas.
+            Sirve como demostración de cifrado asimétrico: sólo quien tenga la clave privada correcta podrá descifrar el resultado.
+        </p>
 
         <form asp-action="Encrypt" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
