@@ -81,8 +81,7 @@ _[Ss]cripts
 #      Variables     #
 ######################
 launchSettings.json
-appsettings.Development.json
-appsettings.json
+
 
 # Cursor IDE
 .cursor/*
