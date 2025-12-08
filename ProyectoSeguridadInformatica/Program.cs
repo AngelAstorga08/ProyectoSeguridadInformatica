@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.RateLimiting;
 using ProyectoSeguridadInformatica.Middleware;
 using ProyectoSeguridadInformatica.Models;
@@ -125,6 +126,11 @@ namespace ProyectoSeguridadInformatica
 
             // Middleware global de excepciones (antes del resto del pipeline)
             app.UseMiddleware<GlobalExceptionMiddleware>();
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
