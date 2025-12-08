@@ -56,11 +56,31 @@ public static class DeviceIdentifier
 
     public static string GetFingerprint(HttpContext context)
     {
-        var ip = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+        var ip = GetClientIp(context);
         var ua = context.Request.Headers["User-Agent"].ToString();
         var data = $"{ip}|{ua}";
         var hash = SHA256.HashData(Encoding.UTF8.GetBytes(data));
         return $"fp-{Convert.ToHexString(hash)}";
+    }
+
+    /// <summary>
+    /// Obtiene la IP del cliente priorizando el primer valor válido de X-Forwarded-For.
+    /// Si no existe o no es válido, usa RemoteIpAddress.
+    /// </summary>
+    public static string GetClientIp(HttpContext context)
+    {
+        var xff = context.Request.Headers["X-Forwarded-For"].ToString();
+        if (!string.IsNullOrWhiteSpace(xff))
+        {
+            var first = xff.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+                           .FirstOrDefault();
+            if (first != null && System.Net.IPAddress.TryParse(first, out var parsed))
+            {
+                return parsed.ToString();
+            }
+        }
+
+        return context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
     }
 }
 }

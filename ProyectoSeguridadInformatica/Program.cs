@@ -85,10 +85,8 @@ namespace ProyectoSeguridadInformatica
 
             builder.Services.AddRateLimiter(options =>
             {
-                static string IpKey(HttpContext ctx)
-                {
-                    return ctx.Connection.RemoteIpAddress?.ToString() ?? "unknown";
-                }
+                static string IpKey(HttpContext ctx) =>
+                    DeviceIdentifier.GetClientIp(ctx);
 
                 static string FingerprintKey(HttpContext ctx)
                 {
@@ -198,7 +196,7 @@ namespace ProyectoSeguridadInformatica
             // Log temporal para verificar IP real y cabeceras reenviadas antes del rate limiter.
             app.Use(async (context, next) =>
             {
-                var remoteIp = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+                var remoteIp = DeviceIdentifier.GetClientIp(context);
                 var xff = context.Request.Headers["X-Forwarded-For"].ToString();
                 context.RequestServices
                     .GetRequiredService<ILogger<Program>>()
