@@ -164,6 +164,24 @@ namespace ProyectoSeguridadInformatica
                 }
             }
 
+            var forwardLimit = builder.Configuration.GetValue<int?>("ForwardedHeaders:ForwardLimit");
+            if (forwardLimit.HasValue)
+            {
+                forwardedOptions.ForwardLimit = forwardLimit.Value;
+            }
+
+            // Si no se configuran proxies/redes (p. ej. Render con IPs dinámicas),
+            // se confía en un único salto y se limpian restricciones para tomar la IP real.
+            var hasConfiguredSources =
+                (knownProxies?.Length ?? 0) > 0 ||
+                (knownNetworks?.Length ?? 0) > 0;
+            if (!hasConfiguredSources && !forwardLimit.HasValue)
+            {
+                forwardedOptions.KnownNetworks.Clear();
+                forwardedOptions.KnownProxies.Clear();
+                forwardedOptions.ForwardLimit = 1;
+            }
+
             app.UseForwardedHeaders(forwardedOptions);
 
             // Configure the HTTP request pipeline.
