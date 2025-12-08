@@ -85,22 +85,29 @@ namespace ProyectoSeguridadInformatica
 
             builder.Services.AddRateLimiter(options =>
             {
-                // 1. Política GLOBAL por IP (por defecto para todos los endpoints)
-                options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, IPAddress>(
+                static string ClientKey(HttpContext ctx)
+                {
+                    var deviceId = DeviceIdentifier.GetOrCreateDeviceId(ctx);
+                    var ip = ctx.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+                    return $"{deviceId}:{ip}";
+                }
+
+                // 1. Política GLOBAL combinando DeviceId + IP
+                options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(
                     httpContext => RateLimitPartition.GetFixedWindowLimiter(
-                        partitionKey: httpContext.Connection.RemoteIpAddress ?? IPAddress.Loopback,
+                        partitionKey: ClientKey(httpContext),
                         factory: _ => new FixedWindowRateLimiterOptions
                         {
                             PermitLimit = 300,                    // 300 peticiones
-                            Window = TimeSpan.FromMinutes(1),     // por minuto por IP
+                            Window = TimeSpan.FromMinutes(1),     // por minuto por clave
                             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
                             QueueLimit = 50                       // hasta 50 en cola, el resto 429 inmediato
                         }));
 
-                // 2. Política más estricta para endpoints de login / registro
+                // 2. Política más estricta para endpoints de login / registro (DeviceId + IP)
                 options.AddPolicy("auth-strict", httpContext =>
                     RateLimitPartition.GetTokenBucketLimiter(
-                        partitionKey: httpContext.Connection.RemoteIpAddress ?? IPAddress.Loopback,
+                        partitionKey: ClientKey(httpContext),
                         factory: _ => new TokenBucketRateLimiterOptions
                         {
                             TokenLimit = 20,                          // capacidad máxima del bucket
