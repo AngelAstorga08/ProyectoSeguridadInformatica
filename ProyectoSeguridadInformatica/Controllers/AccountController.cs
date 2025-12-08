@@ -74,6 +74,8 @@ namespace ProyectoSeguridadInformatica.Controllers
         [HttpGet]
         public IActionResult Login(string? returnUrl = null)
         {
+            System.Console.WriteLine("ENTRE A LOGIN");
+
             if (!string.IsNullOrEmpty(returnUrl) && returnUrl.StartsWith("/Crypto", StringComparison.OrdinalIgnoreCase))
             {
                 ModelState.AddModelError(string.Empty, "Debe iniciar sesión para acceder a esta funcionalidad.");
@@ -90,6 +92,7 @@ namespace ProyectoSeguridadInformatica.Controllers
         [EnableRateLimiting("auth-strict")]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+            System.Console.WriteLine("ENTRE A LOGIN POST");
             // 1. Generamos/obtenemos el DeviceId desde el principio
             var deviceId = DeviceIdentifier.GetOrCreateDeviceId(HttpContext);
 

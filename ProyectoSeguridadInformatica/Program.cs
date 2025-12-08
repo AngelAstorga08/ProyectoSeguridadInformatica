@@ -67,12 +67,16 @@ namespace ProyectoSeguridadInformatica
                 .SetApplicationName("ProyectoSeguridadInformatica");
             builder.Services.AddMemoryCache();
             builder.Services.AddSingleton<AesService>();
+            var cookieSecurePolicy = builder.Environment.IsDevelopment()
+                ? CookieSecurePolicy.SameAsRequest
+                : CookieSecurePolicy.Always;
+
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(20);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SecurePolicy = cookieSecurePolicy;
                 options.Cookie.SameSite = SameSiteMode.Strict;
             });
 
@@ -84,7 +88,7 @@ namespace ProyectoSeguridadInformatica
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
                     options.SlidingExpiration = true;
                     options.Cookie.HttpOnly = true;
-                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                    options.Cookie.SecurePolicy = cookieSecurePolicy;
                     options.Cookie.SameSite = SameSiteMode.Strict;
                 });
 
