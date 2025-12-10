@@ -1,7 +1,12 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\jaime\\OneDrive\\Escritorio\\PRACTICAS\\PROYECTOSEGURIDADINFORMATICA\\ProyectoSeguridadInformatica\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\Alejandra Sanchez\\OneDrive\\Desktop\\IDyGS7A\\Proyecto\\ProyectoSeguridadInformatica\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AA7DAFA9-B2A8-41E4-8543-2AAB7213B545}|ProyectoSeguridadInformatica\\ProyectoSeguridadInformatica.csproj|c:\\users\\alejandra sanchez\\onedrive\\desktop\\idygs7a\\proyecto\\proyectoseguridadinformatica\\proyectoseguridadinformatica\\views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AA7DAFA9-B2A8-41E4-8543-2AAB7213B545}|ProyectoSeguridadInformatica\\ProyectoSeguridadInformatica.csproj|solutionrelative:proyectoseguridadinformatica\\views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +14,20 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Register.cshtml",
+              "DocumentMoniker": "C:\\Users\\Alejandra Sanchez\\OneDrive\\Desktop\\IDyGS7A\\Proyecto\\ProyectoSeguridadInformatica\\ProyectoSeguridadInformatica\\Views\\Account\\Register.cshtml",
+              "RelativeDocumentMoniker": "ProyectoSeguridadInformatica\\Views\\Account\\Register.cshtml",
+              "ToolTip": "C:\\Users\\Alejandra Sanchez\\OneDrive\\Desktop\\IDyGS7A\\Proyecto\\ProyectoSeguridadInformatica\\ProyectoSeguridadInformatica\\Views\\Account\\Register.cshtml",
+              "RelativeToolTip": "ProyectoSeguridadInformatica\\Views\\Account\\Register.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-10T09:45:16.329Z",
+              "EditorCaption": ""
             }
           ]
         }
